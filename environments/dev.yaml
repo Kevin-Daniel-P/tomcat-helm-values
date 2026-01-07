@@ -1,0 +1,41 @@
+# Development environment configuration
+replicaCount: 1
+
+image:
+  tag: "10.1.18-debian-12-r0"
+
+tomcatUsername: admin
+tomcatPassword: dev-password-123
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+  limits:
+    memory: 256Mi
+    cpu: 250m
+
+persistence:
+  enabled: false
+
+service:
+  type: NodePort
+  port: 8080
+
+ingress:
+  enabled: true
+  hostname: tomcat-dev.example.com
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+
+extraEnvVars:
+  - name: ENVIRONMENT
+    value: "development"
+  - name: JAVA_OPTS
+    value: "-Xms128m -Xmx256m -XX:+UseG1GC"
+  - name: CATALINA_OPTS
+    value: "-Denv=dev -Ddebug=true"
+
+podAnnotations:
+  environment: dev
+  version: "1.0.0"
