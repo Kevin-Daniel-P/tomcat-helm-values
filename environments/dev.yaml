@@ -1,11 +1,5 @@
-# Development environment configuration
+# Development
 replicaCount: 1
-
-image:
-  tag: "latest"
-
-tomcatUsername: admin
-tomcatPassword: dev-password-123
 
 resources:
   requests:
@@ -17,25 +11,3 @@ resources:
 
 persistence:
   enabled: false
-
-service:
-  type: NodePort
-  port: 8080
-
-ingress:
-  enabled: true
-  hostname: tomcat-dev.example.com
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-
-extraEnvVars:
-  - name: ENVIRONMENT
-    value: "development"
-  - name: JAVA_OPTS
-    value: "-Xms128m -Xmx256m -XX:+UseG1GC"
-  - name: CATALINA_OPTS
-    value: "-Denv=dev -Ddebug=true"
-
-podAnnotations:
-  environment: dev
-  version: "1.0.0"
