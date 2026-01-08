@@ -1,29 +1,31 @@
-# Common Tomcat configuration across all environments
+# Redis Helm values for Repository 2
+# Chart: bitnami/redis:20.1.0
 
-## Image
-image:
-  registry: docker.io
-  repository: bitnami/tomcat
-  pullPolicy: IfNotPresent
+# Architecture: standalone (simpler for testing)
+architecture: standalone
 
-## Service
+# Authentication
+auth:
+  enabled: true
+  password: "redis456"
+
+# Master configuration
+master:
+  persistence:
+    enabled: false  # Disable persistence for simplicity
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "100m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
+
+# Service configuration
 service:
   type: ClusterIP
-  port: 8080
+  port: 6379
 
-## Resources
-resources:
-  requests:
-    memory: 256Mi
-    cpu: 100m
-  limits:
-    memory: 512Mi
-    cpu: 500m
-
-## Persistence
-persistence:
+# Metrics (optional)
+metrics:
   enabled: false
-
-## Container port
-containerPorts:
-  http: 8080
